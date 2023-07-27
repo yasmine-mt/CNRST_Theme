@@ -25,7 +25,9 @@ JavaScript
 HTML
 CSS
 # Database
-SQLite
+MySQL
 # Modules Python supplémentaires requis :
-Django , Django-filter ,Django-auditlog
+Django , Django-filter ,Django-auditlog, mysqlclient
+
+
 
