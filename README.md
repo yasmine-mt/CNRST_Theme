@@ -26,7 +26,7 @@ HTML
 CSS
 # Database
 MySQL
-# Modules Python supplémentaires requis :
+# Modules Python supplémentaires requis (Installation depuis la ligne de commande avec pip) :
 Django , Django-filter ,Django-auditlog, mysqlclient
 
 
