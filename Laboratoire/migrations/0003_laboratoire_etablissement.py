@@ -2,7 +2,6 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
-import django.utils.timezone
 
 
 class Migration(migrations.Migration):
@@ -16,7 +15,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='laboratoire',
             name='Etablissement',
-            field=models.ForeignKey(default=django.utils.timezone.now, on_delete=django.db.models.deletion.CASCADE, to='Etablissement.Etablissement'),
-            preserve_default=False,
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Etablissement.Etablissement'),
         ),
     ]

@@ -16,12 +16,10 @@ from .tokens import account_activation_token
 def signup(request):  
     if request.method == 'POST':  
         form = SignupForm(request.POST)  
-        if form.is_valid():  
-            # Sauvegarder le formulaire en mémoire, pas dans la base de données  
+        if form.is_valid():    
             user = form.save(commit=False)  
             user.is_active = False  
             user.save()  
-            # Obtenir le domaine du site actuel  
             current_site = get_current_site(request)  
             mail_subject = 'Le lien d\'activation de votre compte '  
             message = render_to_string('acc_active_email.html', {  
@@ -58,11 +56,13 @@ def accesPage(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-        if user is not None:
+        if user is not None and (user.username == 'Admin' or user.username == 'admin'):
             login(request, user)
-            return redirect('/') 
+            return redirect('/')
+        elif user is not None :
+            login(request, user)
+            return redirect('accueil_visiteur') 
         else:
-            # User is not authenticated, show error message
             messages.error(request, "Utilisateur et/ou mot de passe incorrect(s)")
             return redirect('connexion')
     return render(request, 'compte/connexion.html')
