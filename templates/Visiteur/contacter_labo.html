@@ -1,0 +1,7 @@
+<!-- Dans votre template contact_laboratoire.html -->
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}  <!-- Utilisez {{ form.as_table }} ou {{ form.as_ul }} selon votre préférence -->
+    <input type="submit" value="Envoyer">
+  </form>
+  

@@ -25,7 +25,7 @@
   --grey-color-light: #aaa;
 }
 body {
-  background-color: #e7f2fd;
+  background-color: #ffffff;
   transition: all 0.5s ease;
 }
 body.dark {
@@ -280,55 +280,55 @@ body.dark {
         <img src="{% static 'images/cnrst_logo.png' %}" alt="CNRST Logo">
       </div>
 
+    
       <div class="search_bar">
-        <form method="get" action="{% url 'search_equipments2' %}">
-        <input type="text" placeholder="Rechercher" />
+        <form id="searchForm" method="get" action="{% url 'search_equipments2' %}">
+          <input type="text" class="search-input" placeholder="Rechercher" />
         </form>
       </div>
 
       <div class="navbar_content">
         <i class="bi bi-grid"></i>
         <i class='bx bx-sun' id="darkLight"></i>
-        <i class='bx bx-bell' ></i>
+        <i class='bx bx-bell'></i>
       </div>
     </nav>
 
-<nav class="sidebar">
-  <div class="menu_content">
-    <ul class="menu_items">
-      <div class="menu_title menu_dahsboard"></div>
+    <nav class="sidebar">
+      <div class="menu_content">
+        <ul class="menu_items">
+          <div class="menu_title menu_dahsboard"></div>
+         
+          <li class="item">
+            <a href="#" class="nav_link">
+              <span class="navlink_icon">
+                <i class="bx bx-grid-alt"></i>
+              </span>
+              <span class="navlink">Consulter tous les équipements</span>
+            </a>
+          </li>
      
-      <li class="item">
-        <div href="#" class="nav_link">
-          <span class="navlink_icon">
-            <i class="bx bx-grid-alt"></i>
-          </span>
-          <span class="navlink">Consulter tous les équipements</span>
-        </div>
-      </li>
- 
-      <li class="item">
-        <div href="#" class="nav_link">
-          <span class="navlink_icon">
-            <i class="bx bx-user-circle"></i>
-          </span>
-          <span class="navlink">Mon compte</span>
-        </div>
-      </li>
-
-     <li>
-  <div href="#" class="nav_link" >
-          <span class="navlink_icon">
-            <i class="bx bx-log-out"></i>
-          </span>
-          <span class="navlink">Logout</span>
-        </div></li>
-    </ul>
-  </div>
+          <li class="item">
+            <a href="#" class="nav_link">
+              <span class="navlink_icon">
+                <i class="bx bx-user-circle"></i>
+              </span>
+              <span class="navlink">Mon compte</span>
+            </a>
+          </li>
+    
+          <li>
+            <a href="{% url 'quitter' %}" class="nav_link">
+                <span class="navlink_icon">
+                    <i class="bx bx-log-out"></i>
+                </span>
+                <span class="navlink">Logout</span>
+            </a>
+          </li>
+        </ul>
+      </div>
 
   <div class="bottom_content">      
-  
-      
       
     <div class="bottom expand_sidebar">
       <span> Agrandir </span>

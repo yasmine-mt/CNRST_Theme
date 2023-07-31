@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include 'base/navbar_v.html' %}
+    <style>
+        body {
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        ul {
+            margin-top: 20px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: inline-block;
+            text-align: left; 
+        }
+    </style>
+</head>
+<body>
+    <ul id="equipementsList">
+        {% if equipements %}
+            {% for equipement in equipements %}
+                <li>
+                    <strong>Reference:</strong> {{ equipement.Reference }}<br>
+                    <strong>Etat:</strong> {{ equipement.get_Etat_display }}<br>
+                    <strong>Date d'Acquisition:</strong> {{ equipement.Date_Acquisition }}<br>
+                    <strong>Marque:</strong> {{ equipement.Marque }}<br>
+                    <strong>Laboratoire:</strong> {{ equipement.Laboratoire }}<br>
+                    <strong>Ville de Laboratoire:</strong> {{ equipement.Laboratoire.Localisation}}<br>
+                    <a href="{% url 'contact_laboratoire' equipement.Laboratoire.id %}">Réserver cet équipement</a>
+                </li>
+            {% endfor %}
+        {% else %}
+            <p>Aucun résultat trouvé pour la recherche.</p>
+        {% endif %}
+    </ul>
+</body>
+
+{% block extra_js %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#searchForm').on('submit', function(event) {
+                event.preventDefault(); // Empêche le rechargement de la page
+
+                var searchTerm = $('.search-input').val(); // Récupère la valeur du champ de recherche
+
+                // Effectue la requête AJAX vers la vue avec le terme de recherche
+                $.ajax({
+                    type: 'GET',
+                    url: '{% url "search_equipments2" %}',
+                    data: {
+                        'Marque': searchTerm
+                    },
+                    success: function(data) {
+                        // Met à jour la liste des équipements avec les résultats filtrés
+                        $('#equipementsList').html(data);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
+</html>
