@@ -1,16 +1,47 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404,redirect
 from .forms import ContactForm
 from Equipement.models import Equipement
+from django.contrib.auth import logout
 from Equipement.filters import EquipementFiltre
 from django.contrib.auth.decorators import login_required
-from Equipement.models import Laboratoire
+from .models import MessageReservation
+
+
 # Create your views here.
 
 
 def accueil_visiteur(request):
-    return render(request, 'Visiteur/accueil_visiteur.html')
+    equipements = Equipement.objects.all()
+
+    marques_distinctes = Equipement.objects.values_list('Marque').distinct()
+
+    context = {
+        'equipements': equipements,
+        'marques_distinctes': marques_distinctes,
+    }
+
+    return render(request, 'Visiteur/equi.html', context)
 
 
+
+@login_required(login_url='connexion')
+def my_account(request):
+    user = request.user
+    reservation_count = MessageReservation.objects.filter(nom=user.get_full_name()).count()
+    context = {
+        'user': user,
+        'reservation_count': reservation_count,
+    }
+    return render(request, 'visiteur/mon_compte.html', context)
+
+
+@login_required(login_url='connexion')
+def delete_account(request):
+    if request.method == 'POST':
+        request.user.delete()
+        logout(request)
+        return redirect('accueil_visiteur')  
+    return render(request, 'delete_account.html')
 
 
 def search_equipments2(request):
@@ -25,36 +56,51 @@ def search_equipments2(request):
 
 @login_required(login_url='connexion')
 
-def contact_laboratoire(request, laboratoire_id):
-    # Récupérer le laboratoire associé à l'équipement en utilisant laboratoire_id
-    laboratoire = get_object_or_404(Laboratoire, id=laboratoire_id)
+def contact_laboratoire(request, equipement_id):  
+    equipement = get_object_or_404(Equipement, id=equipement_id)
 
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            # Traiter le formulaire et envoyer le message au laboratoire
-            # Vous pouvez accéder aux champs du formulaire via form.cleaned_data
             nom = form.cleaned_data['nom']
             email = form.cleaned_data['email']
             message = form.cleaned_data['message']
+            reservation_message = f"Bonjour,\n\nJe souhaite réserver l'équipement suivant :\n\nRéférence: {equipement.Reference}\nÉtat: {equipement.get_Etat_display()}\nDate d'Acquisition: {equipement.Date_Acquisition}\nMarque: {equipement.Marque}\nLaboratoire: {equipement.Laboratoire}\nVille de Laboratoire: {equipement.Laboratoire.Localisation}\n\nCordialement,\n{nom}"
 
-            # Code pour envoyer le message au laboratoire (à personnaliser selon vos besoins)
-            # ...
+            context = {
+                'equipement': equipement,
+                'form': form,
+                'reservation_message': reservation_message,
+            }
+            message_reservation = MessageReservation.objects.create(
+                nom=nom,  
+                email=email,
+                message=reservation_message,
+            )
 
-            # Rediriger l'utilisateur vers une page de confirmation ou une autre vue
-            return render(request, 'visiteur/confirmation.html')
+            return render(request, 'visiteur/equi.html', context=context)
     else:
-        # Vérifier si l'utilisateur est connecté (authentifié)
         if request.user.is_authenticated:
-            # Si l'utilisateur est connecté, pré-remplir les champs nom et e-mail avec ses informations
-            form = ContactForm(initial={'nom': request.user.get_full_name(), 'email': request.user.email})
+            form = ContactForm(initial={
+                'nom': request.user.get_full_name(),
+                'email': request.user.email,
+                'message': f"Bonjour,\n\nJe souhaite réserver l'équipement suivant :\n\nRéférence: {equipement.Reference}\nÉtat: {equipement.get_Etat_display()}\nDate d'Acquisition: {equipement.Date_Acquisition}\nMarque: {equipement.Marque}\nLaboratoire: {equipement.Laboratoire}\nVille de Laboratoire: {equipement.Laboratoire.Localisation}\n\nCordialement,\n{request.user.get_full_name()}",
+            })
         else:
-            # Si l'utilisateur n'est pas connecté, laissez les champs nom et e-mail vides
             form = ContactForm()
 
     context = {
-        'laboratoire': laboratoire,  # Passez ici le laboratoire associé à l'équipement
-        'form': form,
+        'equipement': equipement,  
+        'form': form,  
     }
 
     return render(request, 'visiteur/contacter_labo.html', context)
+
+
+@login_required(login_url='connexion')
+def liste_messages_reservation(request):
+    messages_reservation = MessageReservation.objects.all().order_by('-date_reservation')
+    context = {
+        'messages_reservation': messages_reservation,
+    }
+    return render(request, 'visiteur/liste_messages_reservation.html', context=context)

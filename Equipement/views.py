@@ -41,8 +41,7 @@ def accueil(request):
 def showEquipement(request):
     equipements = Equipement.objects.all()
 
-    # Récupérer toutes les marques distinctes existantes
-    marques_distinctes = Equipement.objects.values_list('Marque', flat=True).distinct()
+    marques_distinctes = Equipement.objects.values_list('Marque').distinct()
 
     context = {
         'equipements': equipements,

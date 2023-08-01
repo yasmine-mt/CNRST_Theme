@@ -16,3 +16,12 @@ class Visiteur(models.Model):
     history = AuditlogHistoryField()  # Champ pour stocker l'historique des modifications
     def __str__(self):
         return self.Nom_V
+
+class MessageReservation(models.Model):
+    nom = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
+    message = models.TextField()
+    date_reservation = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Message de réservation par {self.nom}"

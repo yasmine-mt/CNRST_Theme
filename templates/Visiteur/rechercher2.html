@@ -2,52 +2,88 @@
 <html>
 <head>
     {% include 'base/navbar_v.html' %}
-    <style>
-        body {
+  <style>
+           .equipements-page {
+            font-family: "Arial", sans-serif;
             text-align: center;
             margin-top: 100px;
         }
 
-        ul {
+        .equipements-page ul {
             margin-top: 20px;
             list-style: none;
             padding: 0;
             margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .equipements-page li {
+            margin: 10px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f5f5f5;
+            width: 400px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .equipements-page strong {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .equipements-page a {
             display: inline-block;
-            text-align: left; 
+            margin-top: 10px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 12px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .equipements-page a:hover {
+            background-color: #45a049;
+        }
+
+        .equipements-page p {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <ul id="equipementsList">
-        {% if equipements %}
-            {% for equipement in equipements %}
-                <li>
-                    <strong>Reference:</strong> {{ equipement.Reference }}<br>
-                    <strong>Etat:</strong> {{ equipement.get_Etat_display }}<br>
-                    <strong>Date d'Acquisition:</strong> {{ equipement.Date_Acquisition }}<br>
-                    <strong>Marque:</strong> {{ equipement.Marque }}<br>
-                    <strong>Laboratoire:</strong> {{ equipement.Laboratoire }}<br>
-                    <strong>Ville de Laboratoire:</strong> {{ equipement.Laboratoire.Localisation}}<br>
-                    <a href="{% url 'contact_laboratoire' equipement.Laboratoire.id %}">Réserver cet équipement</a>
-                </li>
-            {% endfor %}
-        {% else %}
-            <p>Aucun résultat trouvé pour la recherche.</p>
-        {% endif %}
-    </ul>
+    <div class="equipements-page">
+        <ul id="equipementsList">
+            {% if equipements %}
+                {% for equipement in equipements %}
+                    <li>
+                        <strong>Reference:</strong> {{ equipement.Reference }}<br>
+                        <strong>Etat:</strong> {{ equipement.get_Etat_display }}<br>
+                        <strong>Date d'Acquisition:</strong> {{ equipement.Date_Acquisition }}<br>
+                        <strong>Marque:</strong> {{ equipement.Marque }}<br>
+                        <strong>Laboratoire:</strong> {{ equipement.Laboratoire }}<br>
+                        <strong>Ville de Laboratoire:</strong> {{ equipement.Laboratoire.Localisation}}<br>
+                        <a href="{% url 'contact_laboratoire' equipement.id %}">Réserver cet équipement</a>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <p>Aucun résultat trouvé pour la recherche.</p>
+            {% endif %}
+        </ul>
+    </div>
 </body>
 
-{% block extra_js %}
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
     <script>
         $(document).ready(function() {
-            $('#searchForm').on('submit', function(event) {
-                event.preventDefault(); // Empêche le rechargement de la page
+            $('#navbarSearchForm').on('submit', function(event) {
+                event.preventDefault(); 
 
-                var searchTerm = $('.search-input').val(); // Récupère la valeur du champ de recherche
-
-                // Effectue la requête AJAX vers la vue avec le terme de recherche
+                var searchTerm = $('.search-input').val(); 
                 $.ajax({
                     type: 'GET',
                     url: '{% url "search_equipments2" %}',
@@ -55,7 +91,6 @@
                         'Marque': searchTerm
                     },
                     success: function(data) {
-                        // Met à jour la liste des équipements avec les résultats filtrés
                         $('#equipementsList').html(data);
                     },
                     error: function(error) {
@@ -65,5 +100,5 @@
             });
         });
     </script>
-{% endblock %}
+
 </html>

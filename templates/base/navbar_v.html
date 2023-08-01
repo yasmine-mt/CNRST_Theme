@@ -273,7 +273,7 @@ body.dark {
     {% load static %}
   </head>
   <body>
-    <!-- navbar -->
+
     <nav class="navbar">
       <div class="logo_item">
         <i class="bx bx-menu" id="sidebarOpen"></i>
@@ -282,10 +282,10 @@ body.dark {
 
     
       <div class="search_bar">
-        <form id="searchForm" method="get" action="{% url 'search_equipments2' %}">
-          <input type="text" class="search-input" placeholder="Rechercher" />
+        <form id="navbarSearchForm" method="get" action="{% url 'search_equipments2' %}">
+            <input type="text" class="search-input" name="Marque" placeholder="Rechercher" />
         </form>
-      </div>
+    </div>
 
       <div class="navbar_content">
         <i class="bi bi-grid"></i>
@@ -300,7 +300,7 @@ body.dark {
           <div class="menu_title menu_dahsboard"></div>
          
           <li class="item">
-            <a href="#" class="nav_link">
+            <a href="{% url 'accueil_visiteur'%}" class="nav_link">
               <span class="navlink_icon">
                 <i class="bx bx-grid-alt"></i>
               </span>
@@ -309,7 +309,7 @@ body.dark {
           </li>
      
           <li class="item">
-            <a href="#" class="nav_link">
+            <a href="{% url 'my_account' %}" class="nav_link">
               <span class="navlink_icon">
                 <i class="bx bx-user-circle"></i>
               </span>
@@ -340,7 +340,7 @@ body.dark {
     </div>
   </div>
 </nav>
-
+   
     <script>const body = document.querySelector("body");
         const darkLight = document.querySelector("#darkLight");
         const sidebar = document.querySelector(".sidebar");
