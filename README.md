@@ -26,8 +26,12 @@ HTML
 CSS
 # Database
 MySQL
-# Modules Python supplémentaires requis (Installation depuis la ligne de commande avec pip) :
-Django , Django-filter ,Django-auditlog, mysqlclient
+# Modules Python supplémentaires requis (Installation depuis la ligne de commande ) :
+pip install django-filter , pip install Django ,pip install Django-auditlog,  pip install mysqlclient
 
+# Urls :
+  # Accés a l'interface Admin de Django
+    http://127.0.0.1:8000/admin 
+    On peut gérer tous les comptes de la BD avec les autres tables 
 
 
