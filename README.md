@@ -27,11 +27,11 @@ CSS
 # Database
 MySQL
 # Modules Python supplémentaires requis (Installation depuis la ligne de commande ) :
- # pip install  
-   Django 
-   Django-auditlog
-   Django-filter
-   mysqlclient
+  # pip install  
+    Django 
+    Django-auditlog
+    Django-filter
+    mysqlclient
 
 # Urls :
   # Accés a l'interface Admin de Django
