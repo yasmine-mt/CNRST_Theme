@@ -34,16 +34,18 @@ MySQL
     mysqlclient
 
 # Urls :
+
   # Accés a l'interface Admin de Django
     http://127.0.0.1:8000/admin 
     On peut gérer tous les comptes de la BD avec les autres tables 
     **Nom d’utilisateur & Mot de passe : admin**
+
   # Accés a l'interface Visiteur de Django
     Nom d’utilisateur : visiteur
     Mot de passe : gestion2023
 
 # Autre info
-  On peut accéder à l'interface admin personnalisé depuis le bouton superviseur 
+  On peut accéder à l'interface admin personnalisée depuis le bouton superviseur 
    
 
 
