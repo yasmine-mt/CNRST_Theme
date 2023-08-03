@@ -5,25 +5,32 @@
   {% load static %}
   <link rel="icon" type="image/png" href="{% static 'images/cnrst_logo.png' %}">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f8f8;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+ body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f8f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-image: url("{% static 'images/cnrst.jpg' %}");
+  background-size: cover;
+  position: relative;
+}
+
     .container {
       display: flex;
       align-items: center;
-      max-width: 600px;
-      width: 80%; 
+      justify-content: space-between;
+      max-width: 900px;
       margin: 20px;
       padding: 20px;
       border-radius: 8px;
-      background-color: #fff;
+      background-color: rgba(255, 255, 255, 0.9);
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: width 0.3s ease; 
+      transform: scale(1);
+      opacity: 1;
+      transition: transform 0.8s ease, opacity 1s ease;
     }
     .container:hover {
       width: 90%; 

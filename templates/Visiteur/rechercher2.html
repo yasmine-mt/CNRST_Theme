@@ -22,31 +22,21 @@
         .equipements-page li {
             margin: 10px;
             padding: 15px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: #f5f5f5;
-            width: 400px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            
         }
 
-        .equipements-page strong {
-            font-weight: bold;
-            color: #4CAF50;
-        }
-
+  
         .equipements-page a {
             display: inline-block;
             margin-top: 10px;
-            background-color: #4CAF50;
+           
             color: white;
             padding: 8px 12px;
             text-decoration: none;
             border-radius: 5px;
         }
 
-        .equipements-page a:hover {
-            background-color: #45a049;
-        }
+        
 
         .equipements-page p {
             margin-top: 20px;
@@ -58,14 +48,18 @@
         <ul id="equipementsList">
             {% if equipements %}
                 {% for equipement in equipements %}
-                    <li>
+                    <li style="border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f5f5f5;
+            width: 400px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
                         <strong>Reference:</strong> {{ equipement.Reference }}<br>
                         <strong>Etat:</strong> {{ equipement.get_Etat_display }}<br>
                         <strong>Date d'Acquisition:</strong> {{ equipement.Date_Acquisition }}<br>
                         <strong>Marque:</strong> {{ equipement.Marque }}<br>
                         <strong>Laboratoire:</strong> {{ equipement.Laboratoire }}<br>
                         <strong>Ville de Laboratoire:</strong> {{ equipement.Laboratoire.Localisation}}<br>
-                        <a href="{% url 'contact_laboratoire' equipement.id %}">Réserver cet équipement</a>
+                        <a href="{% url 'contact_laboratoire' equipement.id %}" style=" background-color: #4CAF50;">Réserver cet équipement</a>
                     </li>
                 {% endfor %}
             {% else %}

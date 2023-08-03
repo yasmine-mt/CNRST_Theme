@@ -11,6 +11,15 @@ from .forms import EquipementForm
 from Etablissement.models import Etablissement
 from django.contrib.auth.decorators import login_required
 # Create your views here.
+def v(request):
+    equipements = Equipement.objects.all()
+    marques_distinctes = [marque[0] for marque in Equipement.objects.values_list('Marque').distinct()]
+    context = {
+        'equipements': equipements,
+        'marques_distinctes': marques_distinctes,
+    }
+
+    return render(request, 'Visiteur/equi.html', context)
 
 @login_required(login_url='connexion')
 def accueil(request):

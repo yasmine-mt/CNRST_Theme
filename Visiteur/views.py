@@ -12,9 +12,7 @@ from .models import MessageReservation
 
 def accueil_visiteur(request):
     equipements = Equipement.objects.all()
-
-    marques_distinctes = Equipement.objects.values_list('Marque').distinct()
-
+    marques_distinctes = [marque[0] for marque in Equipement.objects.values_list('Marque').distinct()]
     context = {
         'equipements': equipements,
         'marques_distinctes': marques_distinctes,
@@ -47,7 +45,6 @@ def delete_account(request):
 def search_equipments2(request):
     search_query = request.GET.get('Marque')  
     equipements = Equipement.objects.all()
-
     if search_query:
         equipement_filter = EquipementFiltre(request.GET, queryset=equipements)
         equipements = equipement_filter.qs

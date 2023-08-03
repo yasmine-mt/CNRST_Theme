@@ -2,7 +2,8 @@
 from django.urls import path
 from . import views
 urlpatterns = [
-    path('',views.accueil),
+    path('',views.v),
+    path('/accueil',views.accueil),
     path('map/',views.map,name='map'),
     path('ajouter/', views.ajouter_equipement, name='ajouter_equipement'),
     path('import-csv/', views.import_csv, name='import_csv'),
