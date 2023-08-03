@@ -43,7 +43,7 @@ MySQL
     Mot de passe : gestion2023
 
 # Autre info
-  On peut accéder à l'interface admin personnalisé depuis le boutton superviseur 
+  On peut accéder à l'interface admin personnalisé depuis le bouton superviseur 
    
 
 
