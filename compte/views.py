@@ -58,7 +58,7 @@ def accesPage(request):
         user = authenticate(request, username=username, password=password)
         if user is not None and (user.username == 'Admin' or user.username == 'admin'):
             login(request, user)
-            return redirect('/')
+            return redirect('accueil')
         elif user is not None :
             login(request, user)
             return redirect('accueil_visiteur') 

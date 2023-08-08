@@ -6,11 +6,15 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from .models import Equipement
 from Laboratoire.models import Laboratoire
-from Visiteur.models import Visiteur
+from django.contrib.auth.models import User
 from .forms import EquipementForm
 from Etablissement.models import Etablissement
 from django.contrib.auth.decorators import login_required
+
+
 # Create your views here.
+
+
 def v(request):
     equipements = Equipement.objects.all()
     marques_distinctes = [marque[0] for marque in Equipement.objects.values_list('Marque').distinct()]
@@ -25,10 +29,10 @@ def v(request):
 def accueil(request):
     equipements = Equipement.objects.all()
     laboratoires= Laboratoire.objects.all()
-    visiteurs = Visiteur.objects.all()
+    visiteurs =  User.objects.count()
     total_equipements = equipements.count()
     total_laboratoires= laboratoires.count()
-    total_visiteurs = visiteurs.count() 
+    total_visiteurs = User.objects.count()
     derniers_equipements = equipements.order_by('-Date_Acquisition')[:3]
  
 
@@ -49,9 +53,7 @@ def accueil(request):
 
 def showEquipement(request):
     equipements = Equipement.objects.all()
-
-    marques_distinctes = Equipement.objects.values_list('Marque').distinct()
-
+    marques_distinctes = [marque[0] for marque in Equipement.objects.values_list('Marque').distinct()]
     context = {
         'equipements': equipements,
         'marques_distinctes': marques_distinctes,

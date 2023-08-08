@@ -1,7 +1,6 @@
 {% extends 'main.html' %}
 {% block content %}
 <style>
-/* Main styles for the dashboard */
 .dashboard {
   padding: 20px;
 }
@@ -15,8 +14,8 @@
 .dash-content {
   border-radius: 8px;
   padding: 20px;
-  margin-left: 250px;
-  margin-right: 90px;
+  margin-left: 300px;
+  margin-right: 100px;
 }
 
 .title {
@@ -36,16 +35,16 @@
 .box {
   background-color: #f0f0f0;
   border-radius: 8px;
-  padding: 20px; /* Reduced padding */
+  padding: 20px; 
   margin-bottom: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  flex-basis: calc(33.33% - 20px); /* Set to 33.33% to fit three boxes in a row */
+  flex-basis: calc(33.33% - 20px); 
   transition: transform 0.2s;
-  cursor: pointer; /* Added cursor pointer on hover */
+  cursor: pointer; 
 }
 
 .box:hover {
-  transform: scale(1.1); /* Increased the scale on hover */
+  transform: scale(1.1); 
 }
 
 .box span {
@@ -75,7 +74,6 @@
   margin-bottom: 10px;
 }
 
-/* Custom styles for icons */
 .bxs-eyedropper {
   font-size: 32px;
   margin-right: 10px;
@@ -94,7 +92,6 @@
   color: #0e0f0f;
 }
 
-/* Table styles */
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -104,6 +101,11 @@
   font-size: 32px;
   margin-right: 10px;
   color: #06aaf5;
+}
+.fa-chart-bar{
+  font-size: 27px;
+  margin-right: 10px;
+  color: #0e0f0f;
 }
 
 .bxs-eyedropper {
@@ -152,7 +154,7 @@
       </div>
       <div class="box box2">
         <i class="fa-solid fa-users"></i>
-        <span class="text">Total des visiteurs</span>
+        <span class="text">Total des visiteurs enregistrés</span>
         <span class="number">{{total_visiteurs}}</span>
       </div>
     </div>
@@ -180,7 +182,10 @@
         {% endfor %}
       </tbody>
     </table>
+    
   </div>
+
+
 </div>
 
 

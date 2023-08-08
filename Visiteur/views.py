@@ -5,7 +5,8 @@ from django.contrib.auth import logout
 from Equipement.filters import EquipementFiltre
 from django.contrib.auth.decorators import login_required
 from .models import MessageReservation
-
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 
 # Create your views here.
 
@@ -101,3 +102,12 @@ def liste_messages_reservation(request):
         'messages_reservation': messages_reservation,
     }
     return render(request, 'visiteur/liste_messages_reservation.html', context=context)
+@require_POST
+def supprimer_message_reservation(request):
+    message_id = request.POST.get('message_id')
+    try:
+        message = MessageReservation.objects.get(pk=message_id)
+        message.delete()
+        return JsonResponse({'success': True})
+    except MessageReservation.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Message not found'})
