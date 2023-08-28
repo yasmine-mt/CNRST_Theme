@@ -17,7 +17,7 @@ class Equipement(models.Model):
 )
     Reference = models.CharField(max_length=200, unique=True, null=True)
     Etat = models.CharField(max_length=200, null=True, choices=ETAT_CHOICES)
-    Date_Acquisition = models.DateField(auto_now_add=True)
+    Date_Acquisition = models.DateField()
     Marque = models.CharField(max_length=200, null=True)
     Laboratoire = models.ForeignKey(Laboratoire, on_delete=models.CASCADE)
     Categorie = models.CharField(max_length=200, choices=CATEGORIE_CHOICES)  # Ajoutez ce champ

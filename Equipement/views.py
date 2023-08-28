@@ -1,4 +1,3 @@
-import codecs
 import csv
 import io
 from Equipement.filters import EquipementFiltre
@@ -10,7 +9,7 @@ from django.contrib.auth.models import User
 from .forms import EquipementForm
 from Etablissement.models import Etablissement
 from django.contrib.auth.decorators import login_required
-
+from datetime import datetime
 
 # Create your views here.
 
@@ -72,77 +71,80 @@ def import_csv(request):
         csv_file = request.FILES['csv_file']
         file_extension = csv_file.name.split('.')[-1]
         if file_extension.lower() != 'csv':
-            # Ajoutez un message d'erreur si l'extension n'est pas valide
             messages.error(request, "L'extension du fichier n'est pas valide. Veuillez sélectionner un fichier CSV.")
             return render(request, 'Equipement/import_csv.html')
 
         try:
-           
-          with csv_file.open('rb') as f:
-            decoded_file = f.read().decode('utf-8')
-            csv_data = csv.reader(io.StringIO(decoded_file), delimiter=',')
+            with csv_file.open('rb') as f:
+                decoded_file = f.read().decode('utf-8')
+                csv_data = csv.reader(io.StringIO(decoded_file), delimiter=',')
+                
                 # Ignore the first line (header)
-            next(csv_data)
+                next(csv_data)
 
-            for row in csv_data:
-            # Récupérez les données de chaque colonne
-                reference = row[0]
-                etat = 'Installé' 
-                marque = row[2]
-                date_acquisition = row[3]
-                laboratoire_name = row[4]
-                localisation = row[5]
-                telephone = row[6]
-                email = row[7]
-                abrv = row[8]
-                etablissement_name = row[9]
-                adresse = row[10]
-                etablissement_telephone = row[11]
-                etablissement_email = row[12]
-                categorie = row[13]
-
-            
-                etablissement, created_etab = Etablissement.objects.get_or_create(
-                    Nom_Etab=etablissement_name,
-                    defaults={
-                        'Adresse': adresse,
-                        'telephone': etablissement_telephone,
-                        'email': etablissement_email
-                    }
-                )
+                for row in csv_data:
+                    reference = row[0]
+                    etat = 'Installé' 
+                    marque = row[2]
+                    date_acquisition_str = row[3]  # Extract date as string from CSV
+                    date_acquisition = datetime.strptime(date_acquisition_str, '%d-%m-%Y').date()  # Convert to date
+                    laboratoire_name = row[4]
+                    localisation = row[5]
+                    telephone = row[6]
+                    email = row[7]
+                    abrv = row[8]
+                    etablissement_name = row[9]
+                    adresse = row[10]
+                    etablissement_telephone = row[11]
+                    etablissement_email = row[12]
+                    categorie = row[13]
+                    
+                    # ... (créez les objets Etablissement et Laboratoire comme avant)
+                      
+                    etablissement, created_etab = Etablissement.objects.get_or_create(
+                        Nom_Etab=etablissement_name,
+                        defaults={
+                            'Adresse': adresse,
+                            'telephone': etablissement_telephone,
+                            'email': etablissement_email
+                        }
+                    )
                 
-                # Recherchez le laboratoire correspondant dans la base de données
-                laboratoire, created_lab = Laboratoire.objects.get_or_create(
-                    Nom_Lab=laboratoire_name,
-                    defaults={
-                        'Localisation': localisation,
-                        'Telephone': telephone,
-                        'Email': email,
-                        'Abrv': abrv,
-                        'Etablissement': etablissement
-                    }
-                )
-                
-                # Créez une instance d'Equipement et enregistrez-la dans la base de données
-                Equipement.objects.create(
-                    Reference=reference,
-                    Etat=etat,
-                    Date_Acquisition=date_acquisition,
-                    Marque=marque,
-                    Laboratoire=laboratoire,
-                    Categorie=categorie
-                )
+                    # Recherchez le laboratoire correspondant dans la base de données
+                    laboratoire, created_lab = Laboratoire.objects.get_or_create(
+                        Nom_Lab=laboratoire_name,
+                        defaults={
+                            'Localisation': localisation,
+                            'Telephone': telephone,
+                            'Email': email,
+                            'Abrv': abrv,
+                            'Etablissement': etablissement
+                        }
+                    )
+                    
+                    # Créez une instance d'Equipement et enregistrez-la dans la base de données
+                    equipement = Equipement(
+                        Reference=reference,
+                        Etat=etat,
+                        Date_Acquisition=date_acquisition,
+                        Marque=marque,
+                        Laboratoire=laboratoire,
+                        Categorie=categorie
+                    )
+                    equipement.save()
 
-        
-            # Redirigez ou renvoyez une réponse appropriée en fonction de votre besoin
-            messages.success(request, 'Importation CSV réussie.')
-            return redirect('showEquipement')  # Remplacez 'showEquipement' par le nom de la vue que vous souhaitez afficher après l'importation réussie.
+                messages.success(request, 'Importation CSV réussie.')
+                return redirect('showEquipement')
 
         except Exception as e:
             messages.error(request, 'Une erreur s\'est produite lors de l\'importation du fichier CSV. Veuillez vérifier le format et l\'encodage du fichier.')
             return render(request, 'Equipement/import_csv.html')
 
     return render(request, 'Equipement/import_csv.html')
+
+              
+                
+       
 
 @login_required(login_url='connexion')
 def ajouter_equipement(request):
