@@ -43,6 +43,10 @@ MySQL
   # Accés a l'interface Visiteur de Django
     Nom d’utilisateur : visiteur
     Mot de passe : gestion2023
+    ou 
+    Nom d’utilisateur : adam
+    Mot de passe : gestion2023
+    ou en créant un nouveau compte
 
 # Autre info
   On peut accéder à l'interface admin personnalisée depuis le bouton superviseur 
