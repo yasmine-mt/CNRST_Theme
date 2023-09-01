@@ -57,15 +57,16 @@ def accesPage(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-        if user is not None and (user.username == 'Admin' or user.username == 'admin' ):
+        if user is not None:
+          if user.username.lower() == 'admin':
             login(request, user)
-            return redirect('accueil')  
-        elif user.username =='gestionnaire':
+            return redirect('accueil')
+          elif user.username == 'gestionnaire':
             login(request, user)
-            return redirect('gestionnaire') 
-        elif user is not None :
+            return redirect('gestionnaire')
+          else:
             login(request, user)
-            return redirect('accueil_visiteur') 
+            return redirect('accueil_visiteur')
       
         else:
             messages.error(request, "Utilisateur et/ou mot de passe incorrect(s)")
