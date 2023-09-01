@@ -1,6 +1,6 @@
 from django.db import models
 from auditlog.models import AuditlogHistoryField
-
+from Equipement.models import Equipement
 
 class Visiteur(models.Model):
 
@@ -22,6 +22,7 @@ class MessageReservation(models.Model):
     email = models.EmailField(max_length=100)
     message = models.TextField()
     date_reservation = models.DateTimeField(auto_now_add=True)
+    equipement = models.ForeignKey(Equipement, on_delete=models.CASCADE) 
 
     def __str__(self):
         return f"Message de réservation par {self.nom}"

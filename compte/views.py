@@ -10,9 +10,10 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from .forms import SignupForm
 from .tokens import account_activation_token
-
+from Laboratoire.models import Laboratoire
 # Create your views here.
-
+def gestionnaire(request):
+    return render(request,'gestionnaire.html')
 def signup(request):  
     if request.method == 'POST':  
         form = SignupForm(request.POST)  
@@ -56,16 +57,28 @@ def accesPage(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-        if user is not None and (user.username == 'Admin' or user.username == 'admin'):
+        if user is not None and (user.username == 'Admin' or user.username == 'admin' ):
             login(request, user)
-            return redirect('accueil')
+            return redirect('accueil')  
+        elif user.username =='gestionnaire':
+            login(request, user)
+            return redirect('gestionnaire') 
         elif user is not None :
             login(request, user)
             return redirect('accueil_visiteur') 
+      
         else:
             messages.error(request, "Utilisateur et/ou mot de passe incorrect(s)")
             return redirect('connexion')
     return render(request, 'compte/connexion.html')
+
+def equipement(request):
+    laboratoires = Laboratoire.objects.all()
+    context = {
+        'laboratoires': laboratoires
+    }
+
+    return render(request, 'equipement.html', context)
 
 def logoutUser(request):
     logout(request)

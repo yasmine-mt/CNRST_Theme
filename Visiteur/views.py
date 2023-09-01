@@ -1,5 +1,6 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from .forms import ContactForm
+from django.core.mail import send_mail
 from Equipement.models import Equipement
 from django.contrib.auth import logout
 from Equipement.filters import EquipementFiltre
@@ -7,7 +8,10 @@ from django.contrib.auth.decorators import login_required
 from .models import MessageReservation
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-
+from django.conf import settings
+import smtplib
+from smtplib import SMTPException
+from socket import gaierror
 # Create your views here.
 
 
@@ -74,6 +78,7 @@ def contact_laboratoire(request, equipement_id):
                 nom=nom,  
                 email=email,
                 message=reservation_message,
+                equipement=equipement,
             )
 
             return render(request, 'visiteur/equi.html', context=context)
@@ -102,12 +107,27 @@ def liste_messages_reservation(request):
         'messages_reservation': messages_reservation,
     }
     return render(request, 'visiteur/liste_messages_reservation.html', context=context)
-@require_POST
-def supprimer_message_reservation(request):
-    message_id = request.POST.get('message_id')
+    
+@login_required(login_url='connexion')
+def envoyer_email_laboratoire(request, message_id):
     try:
-        message = MessageReservation.objects.get(pk=message_id)
+        message = get_object_or_404(MessageReservation, id=message_id)
+        laboratoire = message.equipement.Laboratoire
+        sujet = "Demande de réservation d'équipement"
+        contenu = message.message
+
+        # Utilisez les paramètres d'e-mail configurés dans settings.py
+        send_mail(sujet, contenu, settings.EMAIL_HOST_USER, [laboratoire.Email])
+
+        return redirect('liste_messages_reservation')  # Redirige où vous voulez après l'envoi de l'e-mail
+    except (SMTPException, gaierror) as e:
+        # Gérer l'exception en fonction de vos besoins
+        return HttpResponse("Une erreur s'est produite lors de l'envoi de l'e-mail.")
+def supprimer_message_reservation(request):
+    if request.method == 'POST':
+        message_id = request.POST.get('message_id')
+        message = get_object_or_404(MessageReservation, pk=message_id)
         message.delete()
-        return JsonResponse({'success': True})
-    except MessageReservation.DoesNotExist:
-        return JsonResponse({'success': False, 'error': 'Message not found'})
+        return redirect('liste_messages_reservation')
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})

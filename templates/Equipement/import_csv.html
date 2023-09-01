@@ -7,7 +7,7 @@
     <div class="col-md-6">
       <div class="card">
         <div class="card-header">
-          Importation de Fichier CSV
+          <i class="fas fa-file-csv"></i>  Importation de Fichier CSV
         </div>
         <div class="card-body">
           <form method="post" action="{% url 'import_csv' %}" enctype="multipart/form-data">
@@ -19,24 +19,51 @@
             <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i> Importer</button>
           </form>
         </div>
-      </div>
+        <button id="showReference" class="btn btn-secondary mt-3"><i class="fas fa-info-circle"></i> Afficher la référence du CSV</button> </div>
     </div>
+        <div id="referenceTable" class="excel-view mt-3" style="display: none;">
+          <div class="excel-row">
+            <div class="excel-cell-header">Référence</div>
+            <div class="excel-cell-header">État</div>
+            <div class="excel-cell-header">Marque</div>
+            <div class="excel-cell-header">Date d'Acquisition</div>
+            <div class="excel-cell-header">Nom du Laboratoire</div>
+            <div class="excel-cell-header">Localisation</div>
+            <div class="excel-cell-header">Téléphone</div>
+            <div class="excel-cell-header">Email</div>
+            <div class="excel-cell-header">Abréviation</div>
+            <div class="excel-cell-header">Nom de l'Établissement</div>
+            <div class="excel-cell-header">Adresse</div>
+            <div class="excel-cell-header">Téléphone de l'Établissement</div>
+            <div class="excel-cell-header">Email de l'Établissement</div>
+            <div class="excel-cell-header">Catégorie</div>
+          </div>
+        </div>
+        <div id="separatorSpecification" class="separator-specification mt-3" style="display: none;">
+          <p class="text-muted">Le séparateur de ce fichier CSV doit être le point-virgule (;).</p>
+        </div>
+     
   </div>
 </div>
 
-{% if messages %}
-<div class="container mt-3">
-  <ul class="messages">
-    {% for message in messages %}
-    <li class="alert {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</li>
-    {% endfor %}
-  </ul>
-</div>
-{% endif %}
+<script>
+  const showReferenceBtn = document.getElementById("showReference");
+  const referenceTable = document.getElementById("referenceTable");
+  const separatorSpecification = document.getElementById("separatorSpecification");
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+  showReferenceBtn.addEventListener("click", () => {
+    if (referenceTable.style.display === "none") {
+      referenceTable.style.display = "block";
+      separatorSpecification.style.display = "block";
+    } else {
+      referenceTable.style.display = "none";
+      separatorSpecification.style.display = "none";
+    }
+  });
+</script>
+
 <style>
-  /* Ajoutez du style personnalisé ici */
+  /* Add your custom styles here */
   .card {
     border: none;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -74,22 +101,40 @@
     border-radius: 5px;
   }
 
-  .alert-danger {
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-    color: #721c24;
+  .excel-view {
+    border: 1px solid #ccc;
+    padding: 10px;
   }
 
-  .alert-success {
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-    color: #155724;
+  .excel-row {
+    display: flex;
   }
 
-  .alert-info {
-    background-color: #d1ecf1;
-    border-color: #bee5eb;
-    color: #0c5460;
+  .excel-cell {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    text-align: center;
+    font-weight: bold;
+  }
+  .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    font-weight: bold;
+  }
+
+  .btn-secondary:hover {
+    background-color: #545b62;
+  }
+
+  /* Style pour les en-têtes du tableau */
+  .excel-cell-header {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    text-align: center;
+    font-weight: bold;
+    background-color: #f2f2f2;
   }
 </style>
 {% endblock content %}

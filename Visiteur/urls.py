@@ -9,5 +9,6 @@ urlpatterns = [
     path('mon_compte/', views.my_account, name='my_account'),
     path('delete_account/', views.delete_account, name='delete_account'),
     path('supprimer-message/', views.supprimer_message_reservation, name='supprimer_message_reservation'),
+    path('envoyer_email_laboratoire/<int:message_id>/', views.envoyer_email_laboratoire, name='envoyer_email_laboratoire'),
     
 ]
