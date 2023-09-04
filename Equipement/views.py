@@ -86,7 +86,7 @@ def import_csv(request):
                     reference = row[0]
                     etat = 'Installé' 
                     marque = row[2]
-                    date_acquisition_str = row[3]  # Extract date as string from CSV
+                    date_acquisition_str = row[3]  # Extract date as a string from CSV
                     date_acquisition = datetime.strptime(date_acquisition_str, '%d-%m-%Y').date()  # Convert to date
                     laboratoire_name = row[4]
                     localisation = row[5]
@@ -99,17 +99,6 @@ def import_csv(request):
                     etablissement_email = row[12]
                     categorie = row[13]
                     
-                    # ... (créez les objets Etablissement et Laboratoire comme avant)
-                      
-                    etablissement, created_etab = Etablissement.objects.get_or_create(
-                        Nom_Etab=etablissement_name,
-                        defaults={
-                            'Adresse': adresse,
-                            'telephone': etablissement_telephone,
-                            'email': etablissement_email
-                        }
-                    )
-                
                     # Recherchez le laboratoire correspondant dans la base de données
                     laboratoire, created_lab = Laboratoire.objects.get_or_create(
                         Nom_Lab=laboratoire_name,
@@ -118,7 +107,16 @@ def import_csv(request):
                             'Telephone': telephone,
                             'Email': email,
                             'Abrv': abrv,
-                            'Etablissement': etablissement
+                        }
+                    )
+                    
+                    # Recherchez l'établissement correspondant dans la base de données
+                    etablissement, created_etab = Etablissement.objects.get_or_create(
+                        Nom_Etab=etablissement_name,
+                        defaults={
+                            'Adresse': adresse,
+                            'telephone': etablissement_telephone,
+                            'email': etablissement_email
                         }
                     )
                     
@@ -142,7 +140,6 @@ def import_csv(request):
 
     return render(request, 'Equipement/import_csv.html')
 
-              
                 
        
 

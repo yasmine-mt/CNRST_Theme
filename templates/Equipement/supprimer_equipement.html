@@ -1,43 +1,59 @@
 {% extends 'main.html' %}
 
 {% block content %}
-    <div class="container" style="margin-left: 300px;">
-       
-        <p class="lead">Êtes-vous sûr de vouloir supprimer l'équipement {{ item.Reference }} ?</p>
-        <form action="{% url 'supprimer_equipement' item.Reference %}" method="POST">
-            {% csrf_token %}
-            <input class="btn btn-danger" type="submit" value="Confirmer">
-            <a href="{% url 'showEquipement' %}" class="btn btn-warning"><i class="fas fa-times"></i> Annuler</a>
-        </form>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Confirmation de suppression</h2>
+            <p class="lead">Êtes-vous sûr de vouloir supprimer l'équipement {{ item.Reference }} ?</p>
+            <form action="{% url 'supprimer_equipement' item.Reference %}" method="POST">
+                {% csrf_token %}
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-danger mr-2">Confirmer</button>
+                    <a href="{% url 'showEquipement' %}" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Annuler
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
-    <style>
-        body {
-            background-color: #f5f5f5;
-            font-family: Arial, sans-serif;
-            font-weight: bold;
-        }
-    
-        .container {
-            margin-top: 50px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-    
-     
-    
-        p {
-            color: #333;
-        }
-    
-        form {
-            margin-top: 20px;
-        }
-    
-        .btn {
-            margin-right: 10px;
-        }
-    </style>
-    
+</div>
+<style>
+    body {
+        background-color: #f5f5f5;
+        margin-top: 200px;
+    }
+
+    .card {
+        max-width: 600px;
+        margin: 0 auto;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+    .btn-secondary:hover {
+        background-color: #545b62;
+        border-color: #545b62;
+    }
+</style>
 {% endblock content %}

@@ -80,7 +80,7 @@
              var searchTerm = $('.search-input').val(); 
              $.ajax({
                  type: 'GET',
-                 url: '{% url "search_equipments2" %}',
+                 url: '{% url "search_equipments" %}',
                  data: {
                      'Marque': searchTerm
                  },
