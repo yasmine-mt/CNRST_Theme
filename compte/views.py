@@ -73,7 +73,7 @@ def accesPage(request):
                 elif user_profile.role == 'gestionnaire':
                     login(request, user)
                     return redirect('gestionnaire')
-                else:
+                elif user_profile.role == 'visiteur':
                     login(request, user)
                     return redirect('accueil_visiteur')
             else:
