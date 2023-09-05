@@ -11,6 +11,8 @@ from django.core.mail import EmailMessage
 from .forms import SignupForm
 from .tokens import account_activation_token
 from Laboratoire.models import Laboratoire
+from .models import UserProfile
+
 # Create your views here.
 def gestionnaire(request):
     return render(request,'gestionnaire.html')
@@ -52,26 +54,36 @@ def activate(request, uidb64, token):
     else:  
         return HttpResponse('Le lien d\'activation est invalide !')
 
+
 def accesPage(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
-          if user.username.lower() == 'admin':
-            login(request, user)
-            return redirect('accueil')
-          elif user.username == 'gestionnaire':
-            login(request, user)
-            return redirect('gestionnaire')
-          else:
-            login(request, user)
-            return redirect('accueil_visiteur')
-      
+            try:
+                user_profile = UserProfile.objects.get(user=user)
+            except UserProfile.DoesNotExist:
+                user_profile = None
+
+            if user_profile is not None:
+                if user.is_superuser:
+                    login(request, user)
+                    return redirect('accueil')
+                elif user_profile.role == 'gestionnaire':
+                    login(request, user)
+                    return redirect('gestionnaire')
+                else:
+                    login(request, user)
+                    return redirect('accueil_visiteur')
+            else:
+                messages.error(request, "Utilisateur et/ou mot de passe incorrect(s)")
+                return redirect('connexion')
         else:
             messages.error(request, "Utilisateur et/ou mot de passe incorrect(s)")
             return redirect('connexion')
     return render(request, 'compte/connexion.html')
+
 
 def equipement(request):
     laboratoires = Laboratoire.objects.all()

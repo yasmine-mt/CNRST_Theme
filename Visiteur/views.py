@@ -6,7 +6,7 @@ from django.contrib.auth import logout
 from Equipement.filters import EquipementFiltre
 from django.contrib.auth.decorators import login_required
 from .models import MessageReservation
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from django.views.decorators.http import require_POST
 from django.conf import settings
 import smtplib
@@ -100,7 +100,6 @@ def contact_laboratoire(request, equipement_id):
     return render(request, 'visiteur/contacter_labo.html', context)
 
 
-@login_required(login_url='connexion')
 def liste_messages_reservation(request):
     messages_reservation = MessageReservation.objects.all().order_by('-date_reservation')
     context = {
@@ -108,7 +107,6 @@ def liste_messages_reservation(request):
     }
     return render(request, 'visiteur/liste_messages_reservation.html', context=context)
     
-@login_required(login_url='connexion')
 def envoyer_email_laboratoire(request, message_id):
     try:
         message = get_object_or_404(MessageReservation, id=message_id)
