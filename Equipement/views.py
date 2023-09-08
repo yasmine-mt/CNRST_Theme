@@ -76,7 +76,7 @@ def import_csv(request):
 
         try:
             with csv_file.open('rb') as f:
-                decoded_file = f.read().decode('utf-8')
+                decoded_file = f.read().decode('ANSI')
                 csv_data = csv.reader(io.StringIO(decoded_file), delimiter=',')
                 
                 # Ignore the first line (header)
@@ -87,7 +87,7 @@ def import_csv(request):
                     etat = 'Installé' 
                     marque = row[2]
                     date_acquisition_str = row[3]  # Extract date as a string from CSV
-                    date_acquisition = datetime.strptime(date_acquisition_str, '%d-%m-%Y').date()  # Convert to date
+                    date_acquisition = datetime.strptime(date_acquisition_str, '%d/%m/%Y').date()  # Convert to date
                     laboratoire_name = row[4]
                     localisation = row[5]
                     telephone = row[6]
