@@ -44,6 +44,20 @@
         </div>
      
   </div>
+  <br>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+
+
 </div>
 
 <script>
@@ -105,6 +119,26 @@
     border: 1px solid #ccc;
     padding: 10px;
   }
+  .success-message {
+  background-color: #28a745;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+}
+.warning-message{
+  background-color: #e27d11;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+/* Style pour les messages d'erreur */
+.error-message {
+  background-color: #dc3545;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+}
 
   .excel-row {
     display: flex;

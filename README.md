@@ -44,7 +44,8 @@ MySQL
 # Autre info
   On peut accéder à l'interface admin personnalisée depuis le bouton superviseur 
 
-  pour modifier l'email qui envoie le lien de verification , on doit modifier dans le fichier settings.py du projet pour remplacer EMAIL_HOST_USER  par le nouveau email et changer EMAIL_HOST_PASSWORD .
-
+  Pour modifier l'email qui envoie le lien de verification , on doit modifier dans le fichier settings.py du projet pour remplacer EMAIL_HOST_USER  par le nouveau email et changer EMAIL_HOST_PASSWORD .
+  
+  Si l'Erreur détaillée : 'utf-8' codec can't decode byte 0xe9 in position 322: invalid continuation byte ' apparait ,il faut ouvrir le fichier csv avec un éditeur de texte et choisir Encoding: Utf-8 et enregistrer
 
 

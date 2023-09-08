@@ -99,7 +99,20 @@ def import_csv(request):
                     etablissement_email = row[12]
                     categorie = row[13]
                     
-                    # Recherchez le laboratoire correspondant dans la base de données
+                
+                    # Recherchez l'établissement correspondant dans la base de données
+                    try:
+                        etablissement = Etablissement.objects.get(Nom_Etab=etablissement_name)
+                    except Etablissement.DoesNotExist:
+                        # Si l'établissement n'existe pas, créez une nouvelle instance
+                        etablissement = Etablissement(
+                            Nom_Etab=etablissement_name,
+                            Adresse=adresse,
+                            telephone=etablissement_telephone,
+                            email=etablissement_email,
+                        )
+                        etablissement.save()
+                    # Recherchez laboratoire correspondant dans la base de données
                     laboratoire, created_lab = Laboratoire.objects.get_or_create(
                         Nom_Lab=laboratoire_name,
                         defaults={
@@ -107,19 +120,12 @@ def import_csv(request):
                             'Telephone': telephone,
                             'Email': email,
                             'Abrv': abrv,
+                            'Etablissement':etablissement,
                         }
                     )
                     
-                    # Recherchez l'établissement correspondant dans la base de données
-                    etablissement, created_etab = Etablissement.objects.get_or_create(
-                        Nom_Etab=etablissement_name,
-                        defaults={
-                            'Adresse': adresse,
-                            'telephone': etablissement_telephone,
-                            'email': etablissement_email
-                        }
-                    )
                     
+
                     # Créez une instance d'Equipement et enregistrez-la dans la base de données
                     equipement = Equipement(
                         Reference=reference,
@@ -127,7 +133,7 @@ def import_csv(request):
                         Date_Acquisition=date_acquisition,
                         Marque=marque,
                         Laboratoire=laboratoire,
-                        Categorie=categorie
+                        Categorie=categorie,
                     )
                     equipement.save()
 
@@ -135,8 +141,9 @@ def import_csv(request):
                 return redirect('showEquipement')
 
         except Exception as e:
-            messages.error(request, 'Une erreur s\'est produite lors de l\'importation du fichier CSV. Veuillez vérifier le format et l\'encodage du fichier.')
-            return render(request, 'Equipement/import_csv.html')
+              messages.error(request, 'Une erreur s\'est produite lors de l\'importation du fichier CSV. Veuillez vérifier le format et l\'encodage du fichier.')
+              messages.error(request, f'Erreur détaillée : {str(e)}')  # Ajoutez un message d'erreur détaillé avec str(e)
+              return render(request, 'Equipement/import_csv.html')
 
     return render(request, 'Equipement/import_csv.html')
 

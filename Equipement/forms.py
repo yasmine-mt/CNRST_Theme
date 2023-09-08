@@ -5,3 +5,6 @@ class EquipementForm(ModelForm):
     class Meta:
         model=Equipement
         fields='__all__'
+
+
+        
