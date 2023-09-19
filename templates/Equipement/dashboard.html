@@ -4,7 +4,21 @@
 .dashboard {
   padding: 20px;
 }
+:root {
+    --primary-color: #007BFF; /* Primary color for buttons and accents */
+    --background-color: #f8f8f8; /* Background color */
+    --box-bg-color: #ffffff; /* Box background color */
+    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow */
+    --text-color: #333; /* Text color */
+}
 
+body {
+    background-color: var(--background-color);
+    font-family: Arial, sans-serif;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
 .top {
   display: flex;
   justify-content: flex-end;
@@ -96,12 +110,31 @@
   margin-right: 10px;
   color: #0e0f0f;
 }
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #ffffff;
+.box {
+    background-color: var(--box-bg-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--box-shadow);
+    flex-basis: calc(33.33% - 20px);
+    transition: transform 0.2s;
+    cursor: pointer;
 }
+
+/* Style box hover effect */
+.box:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease;
+}
+
+/* Style box content */
+.box span.text {
+    display: block;
+    margin-top: 10px;
+    font-size: 16px;
+    color: var(--text-color);
+}
+
 .fa-users{
   font-size: 32px;
   margin-right: 10px;
@@ -124,30 +157,45 @@
   color: #0e0f0f;
 }
 
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: var(--box-shadow);
+}
+
 .table th,
 .table td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    vertical-align: middle;
 }
 
 .table th {
-  background-color: #f0f0f0;
+    background-color: var(--primary-color);
+    color: #fff;
 }
+
+.table td {
+    background-color: #f8f8f8;
+}
+
 .btn-en-savoir-plus {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #06aaf5;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #5d9adb; 
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
 }
 
 .btn-en-savoir-plus:hover {
-  background-color: #0494d0;
+    background-color: #006eff; 
 }
 
 </style>
@@ -181,34 +229,37 @@
   </div>
   <div class="activity">
     <div class="title">
-      <i class="fa-solid fa-clock-rotate-left"></i>
-      <span class="text">Les trois derniers équipements ajoutés</span>
-      
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        <span class="text">Les trois derniers équipements ajoutés</span>
     </div>
     <table class="table">
-      <thead>
-        <tr>
-          <th>Identifiant</th>
-          <th>Nom d'équipement</th>
-          <th>Date d'acquisition</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for equipement in derniers_equipements %}
-        <tr>
-          <td>{{ equipement.Reference }}</td>
-          <td>{{ equipement.Marque }}</td>
-          <td>{{ equipement.Date_Acquisition }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
+        <thead>
+            <tr>
+                <th>Identifiant</th>
+                <th>Nom d'équipement</th>
+                <th>Date d'acquisition</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for equipement in derniers_equipements %}
+            <tr>
+                <td>{{ equipement.Reference }}</td>
+                <td>{{ equipement.Marque }}</td>
+                <td>{{ equipement.Date_Acquisition }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
     <a href="{% url 'showEquipement' %}" class="btn-en-savoir-plus">
-      En savoir plus <i class="bx bx-arrow-right"></i>
-    </a>  </div>
-
-
+        En savoir plus <i class="bx bx-arrow-right"></i>
+    </a>
 </div>
+
+
+
+
+
+
 
 
 {% endblock content%}

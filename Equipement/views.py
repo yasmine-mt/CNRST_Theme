@@ -10,7 +10,7 @@ from .forms import EquipementForm
 from Etablissement.models import Etablissement
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-
+from django.http import HttpResponse
 # Create your views here.
 
 
@@ -138,7 +138,7 @@ def import_csv(request):
                     equipement.save()
 
                 messages.success(request, 'Importation CSV réussie.')
-                return redirect('showEquipement')
+                return redirect('import_csv')
 
         except Exception as e:
               messages.error(request, 'Une erreur s\'est produite lors de l\'importation du fichier CSV. Veuillez vérifier le format et l\'encodage du fichier.')
@@ -190,3 +190,38 @@ def modifier_etat(request, equipement_id):
         return redirect('showEquipement')
     
     return render(request, 'Equipement/modifier_etat.html', {'equipement': equipement})
+
+
+def telecharger_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="equipements.csv"'
+
+    equipements = Equipement.objects.all()
+
+    writer = csv.writer(response)
+    writer.writerow(['Référence', 'État', 'Marque', 'Date d\'Acquisition', 'Nom du Laboratoire', 'Localisation', 'Téléphone', 'Email', 'Abréviation', 'Nom de l\'Établissement', 'Adresse', 'Téléphone de l\'Établissement', 'Email de l\'Établissement', 'Catégorie'])
+
+    for equipement in equipements:
+        writer.writerow([
+            equipement.Reference,
+            equipement.Etat,
+            equipement.Marque,
+            equipement.Date_Acquisition,
+            equipement.Laboratoire.Nom_Lab,
+            equipement.Laboratoire.Localisation,
+            equipement.Laboratoire.Telephone,
+            equipement.Laboratoire.Email,
+            equipement.Laboratoire.Abrv,
+            equipement.Laboratoire.Etablissement.Nom_Etab,
+            equipement.Laboratoire.Etablissement.Adresse,
+            equipement.Laboratoire.Etablissement.telephone,
+            equipement.Laboratoire.Etablissement.email,
+            equipement.Categorie,
+        ])
+
+    return response
+
+
+
+
+

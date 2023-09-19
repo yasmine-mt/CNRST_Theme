@@ -1,4 +1,3 @@
-
 {% extends 'main.html' %}
 {% block content %}
 <!-- Inclure les liens vers les fichiers CSS de Font Awesome -->
@@ -6,11 +5,34 @@
 
 <!-- Votre code HTML pour le formulaire d'ajout d'équipement -->
 <form method="POST" action="">
+    <h3 style="font-size: 20px; color: #007bff; font-weight: bold;"><i class="fas fa-plus-circle"></i> Ajouter un équipement</h3>
     {% csrf_token %}
     <div class="form-group">
-    {{form}}</div>
+        <label for="{{ form.Reference.id_for_label }}">Référence de l'équipement:</label>
+        {{ form.Reference }}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.Etat.id_for_label }}">État de l'équipement:</label>
+        {{ form.Etat }}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.Date_Acquisition.id_for_label }}">Date d'acquisition:</label>
+        {{ form.Date_Acquisition }}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.Marque.id_for_label }}">Marque de l'équipement:</label>
+        {{ form.Marque }}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.Laboratoire.id_for_label }}">Laboratoire:</label>
+        {{ form.Laboratoire }}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.Categorie.id_for_label }}">Catégorie de l'équipement:</label>
+        {{ form.Categorie }}
+    </div>
+
     <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter</button>
-  
 </form>
 
 <!-- Inclure les liens vers les fichiers JavaScript de Font Awesome -->
@@ -19,10 +41,10 @@
 <style>
     /* Ajoutez du style personnalisé ici */
     body {
-        background-color: #ffffff;
+        background-color: #f2f2f2;
         font-family: Arial, sans-serif;
     }
-    
+
     form {
         max-width: 400px;
         margin: 0 auto;
@@ -32,16 +54,17 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         margin-top: 100px;
     }
-    
+
     .form-group {
         margin-bottom: 20px;
- 
     }
-    
+
     label {
         font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
     }
-    
+
     input[type="text"],
     select {
         width: 100%;
@@ -50,7 +73,7 @@
         border-radius: 5px;
         font-size: 16px;
     }
-    
+
     button {
         padding: 10px 20px;
         border: none;
@@ -60,7 +83,10 @@
         background-color: #007bff;
         cursor: pointer;
     }
-    
 
+    button:hover {
+        background-color: #0056b3;
+    }
+   
 </style>
-{% endblock content%}
+{% endblock content %}

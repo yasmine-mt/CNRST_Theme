@@ -1,135 +1,133 @@
 {% extends 'main2.html' %}
 
 {% block content %}
+<!DOCTYPE html>
+<html lang="fr">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des messages de réservation</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
-            font-family: "Arial", sans-serif;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            margin-top: 100px;
-            background-color: #f9f9f9;
-            overflow-y: auto;
+            background-color: #f4f4f4;
         }
 
         .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
         .message-card {
-            flex: 0 0 400px;
-            margin: 20px;
-            background-color: #ffffff;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
-            animation: fadeInRight 0.5s ease-in-out;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #fff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .message-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .message-details {
-            padding: 20px;
+        .message-card h3 {
+            font-size: 18px;
+            color: #333;
+            margin: 0;
         }
 
-        strong {
-            font-weight: bold;
+        .message-card p {
+            font-size: 14px;
+            color: #666;
+            margin: 10px 0;
         }
 
-        pre {
+        .message-card pre {
             font-family: monospace;
             white-space: pre-wrap;
         }
 
-        .delete-button {
-            background-color: #f44336;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 5px 10px;
-            cursor: pointer;
+        .message-actions {
             display: flex;
-            align-items: center; 
-            margin-top: 10px;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .delete-icon {
-            font-size: 16px;
-            margin-right: 5px;
+        .delete-button,
+        .send-email-button {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
         .send-email-button {
-            background-color: #4caf50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 5px 10px;
-            cursor: pointer;
+            background-color: #2ecc71;
+        }
+
+        .delete-button:hover,
+        .send-email-button:hover {
+            background-color: #c0392b;
+            margin-left: 50px;
+        }
+
+        .action-icons {
             display: flex;
-            align-items: center; 
-            margin-top: 10px;
+            align-items: center;
         }
 
-        .send-email-icon {
-            font-size: 16px;
-            margin-right: 5px;
-        }
-        
-        @keyframes fadeInRight {
-            0% {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .icon {
+        .action-icons i {
             font-size: 18px;
             margin-right: 5px;
         }
-
     </style>
 </head>
 <body>
-    <center><h2><span class="icon">&#128221;</span>Liste des messages de réservation</h2></center>
-    <div class="container">
+    <div class="container" style="margin-top: 100px;width: 100%;" >
+        <h1>Liste des messages de réservation</h1>
         {% for message in messages_reservation %}
         <div class="message-card">
-            <div class="message-details">
-                <h3>Nom: {{ message.nom }}</h3>
-                <p><span class="icon"><i class="fas fa-envelope"></i></span> <strong>Email:</strong> {{ message.email }}</p>
-                <p><span class="icon"><i class="fas fa-calendar-alt"></i></span> <strong>Date de réservation:</strong> {{ message.date_reservation }}</p>
-                <pre>{{ message.message }}</pre>
-            </div>
+            <h3>Nom: {{ message.nom }}</h3>
+            <p><i class="fas fa-envelope"></i> <strong>Email:</strong> {{ message.email }}</p>
+            <p><i class="far fa-calendar-alt"></i> <strong>Date de réservation:</strong> {{ message.date_reservation }}</p>
+            <pre>{{ message.message }}</pre>
             <div class="message-actions">
-                <a href="{% url 'envoyer_email_laboratoire' message.id %}" class="send-email-button">
-                    <span class="send-email-icon"><i class="fas fa-envelope"></i></span> Envoyer comme e-mail
-                </a>
-                <form action="{% url 'supprimer_message_reservation' %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="message_id" value="{{ message.id }}">
-                    <button class="delete-button" type="submit">
-                        <span class="delete-icon"><i class="fas fa-trash"></i></span> Supprimer
-                    </button>
-                </form>
+                <div class="action-icons">
+                    <a href="{% url 'envoyer_email_laboratoire' message.id %}" class="send-email-button">
+                        <i class="far fa-envelope"></i> Envoyer par email
+                    </a>
+                    <form action="{% url 'supprimer_message_reservation' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="message_id" value="{{ message.id }}">
+                        <button class="delete-button" style="margin-left: 50px;" type="submit">
+                            <i class="far fa-trash-alt"></i> Supprimer
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
         {% empty %}
-            <p>Aucun message de réservation pour le moment.</p>
+        <p>Aucun message de réservation pour le moment.</p>
         {% endfor %}
     </div>
-
 </body>
+</html>
 {% endblock %}

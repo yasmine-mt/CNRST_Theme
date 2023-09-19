@@ -11,4 +11,5 @@ urlpatterns = [
     path('supprimer_equipement/<str:pk>', views.supprimer_equipement, name='supprimer_equipement'),
     path('search/', views.search_equipments, name='search_equipments'),
     path('equipements/<int:equipement_id>/modifier/', views.modifier_etat, name='modifier_etat'),
+    path('telecharger-csv/', views.telecharger_csv, name='telecharger_csv'),
 ]

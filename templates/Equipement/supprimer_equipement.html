@@ -2,38 +2,44 @@
 
 {% block content %}
 <div class="container mt-5">
-    <div class="card">
-        <div class="card-body">
-            <h2 class="card-title">Confirmation de suppression</h2>
-            <p class="lead">Êtes-vous sûr de vouloir supprimer l'équipement {{ item.Reference }} ?</p>
-            <form action="{% url 'supprimer_equipement' item.Reference %}" method="POST">
-                {% csrf_token %}
-                <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-danger mr-2">Confirmer</button>
-                    <a href="{% url 'showEquipement' %}" class="btn btn-secondary">
-                        <i class="fas fa-times"></i> Annuler
-                    </a>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-danger text-center">Confirmation de suppression</h2>
+                    <p class="lead text-center">Êtes-vous sûr de vouloir supprimer l'équipement <strong>{{ item.Reference }}</strong> ?</p>
+                    <div class="text-center mt-4">
+                        <form action="{% url 'supprimer_equipement' item.Reference %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Confirmer</button>
+                            <a href="{% url 'showEquipement' %}" class="btn btn-secondary ml-2">Annuler</a>
+                        </form>
+                    </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
+
 <style>
     body {
         background-color: #f5f5f5;
-        margin-top: 200px;
+        margin-top: 100px;
     }
 
     .card {
-        max-width: 600px;
-        margin: 0 auto;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     .card-title {
+        font-size: 24px;
         font-weight: bold;
-        margin-bottom: 20px;
+    }
+
+    .lead {
+        font-size: 18px;
     }
 
     .btn-danger {

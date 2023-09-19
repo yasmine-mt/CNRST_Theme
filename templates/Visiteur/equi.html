@@ -2,9 +2,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 {% include 'base/navbar_v.html' %}
 <!-- Filtre par catégorie -->
-<div class="container">
+<div class="container filter-container">
     <label for="categorie">Filtrer par catégorie :</label>
-    <select id="categorie">
+    <select id="categorie" class="custom-select">
         <option value="">Toutes</option>
         <option value="Chimie">Chimie</option>
         <option value="Biologie">Biologie</option>
@@ -13,9 +13,9 @@
         <option value="Autre">Autre</option>
     </select>
 </div>
-<div class="container">
+<div class="container filter-container">
     <label for="marque">Filtrer par marque :</label>
-    <select id="marque">
+    <select id="marque" class="custom-select">
         <option value="">Toutes</option>
         {% for marque in marques_distinctes %}
             <option value="{{ marque }}">{{ marque }}</option>
@@ -104,10 +104,48 @@
 </script>
 
 <style>
+    /* Réutilisation du style de filtre par catégorie et par marque */
+
+    .filter-container {
+        margin-bottom: 20px;
+    }
+
+    .custom-select {
+        width: auto;
+        display: inline-block;
+        padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+        line-height: 1.5;
+        background-color: #fff;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .filter-btn {
+        padding: 8px 16px;
+        border: 1px solid #007BFF;
+        border-radius: 4px;
+        background-color: #fff;
+        color: #007BFF;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-right: 10px;
+    }
+
+    .filter-btn:hover {
+        background-color: #007BFF;
+        color: #fff;
+    }
+
+    /* Style spécifique à la page de liste d'équipements */
+
     body {
-        background-color: #ffffff; 
+        background-color: #f2f2f2;
         font-family: Arial, sans-serif;
+        margin-left: 100px;
         margin-top: 100px;
+        margin-right: 150px;
     }
 
     table {
@@ -117,12 +155,13 @@
     }
 
     .container {
-        margin: 20px 300px; 
+        margin: 20px auto;
+        max-width: 1500px;
     }
 
     th,
     td {
-        border: 2px solid #000000;
+        border: 1px solid #ccc;
         padding: 10px;
         text-align: center;
         background-color: #fff;
@@ -130,6 +169,37 @@
 
     th {
         background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    tr:nth-child(even) td {
+        background-color: #f9f9f9;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 8px 16px;
+        border: 1px solid #007BFF;
+        border-radius: 4px;
+        background-color: #007BFF;
+        color: #fff;
+        font-size: 14px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+
+    .select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #fff;
+        font-size: 14px;
     }
 
     tr:nth-child(even) td {
@@ -155,24 +225,6 @@
     .installe {
         color: blue;
         background-color: #e4f4fd;
-    }
-
-    .btn {
-        margin-top: 20px;
-        display: inline-block;
-        padding: 8px 16px;
-        border: none;
-        border-radius: 4px;
-        background-color: #007BFF;
-        color: #fff;
-        font-size: 14px;
-        text-decoration: none;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .btn:hover {
-        background-color: #0056b3;
     }
 
     .active-filter {
